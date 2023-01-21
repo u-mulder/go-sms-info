@@ -13,47 +13,47 @@ type testCase struct {
 	expectedCharsetIsGsm bool
 }
 
-var smsTexts = map[string]TestCase{
-    testCase{
-        "empty sms",
-        "",
-        0,
-        0,
-        0,
-        true,
-    },
-//     testCase{
-//         "one part in gsm",
-//         "",
-//         0,
-//         1,
-//         // ?,
-//         true,
-//     },
-//     testCase{
-//         "one part in ucs",
-//         "",
-//         0,
-//         1,
-//         // ?,
-//         false,
-//     },
-//     testCase{
-//         "several parts in gsm",
-//         "",
-//         0,
-//         2,
-//         // ?,
-//         true,
-//     },
-//     testCase{
-//         "several parts in ucs",
-//         "",
-//         0,
-//         2,
-//         // ?,
-//         false,
-//     },
+var smsTexts = []testCase{
+	{
+		"empty sms",
+		"",
+		0,
+		0,
+		0,
+		true,
+	},
+	{
+		"one part in gsm",
+		"Hello! This short message tells you nothing",
+		43,
+		1,
+		153,
+		true,
+	},
+	{
+		"one part in ucs",
+		"Привет! Это короткое сообщение не имеет смысла",
+		46,
+		1,
+		67,
+		false,
+	},
+	{
+		"several parts in gsm",
+		"Hello! This is a very-very long message for sms service. Though it tells you nothing, it still must be split into 2 parts to be sent over sms as it's length exceeds the limit for single sms",
+		189,
+		2,
+		153,
+		true,
+	},
+	{
+		"several parts in ucs",
+		"Привет! Это довольно длинное смс-сообщение. Хотя оно не имеет смысла, оно все равно состоит из двух частей",
+		106,
+		2,
+		67,
+		false,
+	},
 }
 
 func TestSmsInfo(t *testing.T) {
@@ -65,7 +65,7 @@ func TestSmsInfo(t *testing.T) {
 			}
 
 			if smsInfo.Len() != tc.expectedLen {
-				t.Errorf("Expected text len: %d, got: %s", tc.expectedLen, smsInfo.Len())
+				t.Errorf("Expected text len: %d, got: %d", tc.expectedLen, smsInfo.Len())
 			}
 
 			if smsInfo.PartsCount() != tc.expectedPartsCount {

@@ -1,7 +1,7 @@
 package sms_info
 
 import (
-	"errors"
+	"regexp"
 	"unicode/utf8"
 )
 
@@ -24,27 +24,24 @@ type SmsInfo struct {
 	charset      int
 }
 
-// TODO testing required!
+var gsmRegexp *regexp.Regexp
+
 func (s *SmsInfo) IsGsm() bool {
 	return s.charset == charset_gsm
 }
 
-// TODO testing required!
-func (s *SmsInfo) Text() int {
+func (s *SmsInfo) Text() string {
 	return s.text
 }
 
-// TODO testing required!
 func (s *SmsInfo) Len() int {
 	return s.len
 }
 
-// TODO testing required!
 func (s *SmsInfo) PartsCount() int {
 	return s.partsCount
 }
 
-// TODO testing required!
 func (s *SmsInfo) RunesPerPart() int {
 	return s.runesPerPart
 }
@@ -55,21 +52,24 @@ func (s *SmsInfo) setProps() {
 		return
 	}
 
-	s.len = ut8.RuneCountInString(s.text)
+	s.len = utf8.RuneCountInString(s.text)
+	var maxLen int
 
-	if 1 == 1 {
-		s.runesPerPart = runes_max_ucs
-		s.charset = charset_ucs
-	} else {
-		s.runesPerPart = runes_max_gsm
+	if getGsmRegexp().MatchString(s.text) {
+		s.runesPerPart = runes_per_part_gsm
 		s.charset = charset_gsm
+		maxLen = runes_max_gsm
+	} else {
+		s.runesPerPart = runes_per_part_ucs
+		s.charset = charset_ucs
+		maxLen = runes_max_ucs
 	}
 
-	if s.runesPerPart < s.len {
+	if maxLen < s.len {
 		s.partsCount = (s.len / s.runesPerPart) + 1
+	} else {
+		s.partsCount = 1
 	}
-
-	s.partsCount = 1
 }
 
 func NewSmsInfo(smsText string) *SmsInfo {
@@ -83,4 +83,12 @@ func NewSmsInfo(smsText string) *SmsInfo {
 	sms.setProps()
 
 	return &sms
+}
+
+func getGsmRegexp() *regexp.Regexp {
+	if gsmRegexp == nil {
+		gsmRegexp = regexp.MustCompile(`[a-z]+`)
+	}
+
+	return gsmRegexp
 }
