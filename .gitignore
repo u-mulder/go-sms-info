@@ -16,3 +16,7 @@
 
 # project files
 /.idea/
+.cache
+
+# docker
+docker-compose.yml
