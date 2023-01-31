@@ -54,6 +54,38 @@ var smsTexts = []testCase{
 		67,
 		false,
 	},
+	{
+		"two positions chars in gsm, one sms",
+		"He[]o! This short message tells you ^thing, but costs 30€",
+		61,
+		1,
+		153,
+		true,
+	},
+	{
+		"two positions chars in ucs, one sms",
+		"Привет| Это короткое смс~сообщение. Но оно стоит 30€",
+		55,
+		1,
+		67,
+		false,
+	},
+	{
+		"two positions chars in gsm, several parts",
+		"He[]o! This is a very long message for sms service. Though it tells you nothing, it still must be split into 2 parts to be sent over sms as it~s length exceeds the limit for single sms",
+		187,
+		2,
+		153,
+		true,
+	},
+	{
+		"two positions chars in ucs, several parts",
+		"Привет| Это довольно длинное смс~сообщение. Оно не имеет смысла, но все равно состоит из двух частей и стоит 30€",
+		115,
+		2,
+		67,
+		false,
+	},
 }
 
 func TestSmsInfo(t *testing.T) {
