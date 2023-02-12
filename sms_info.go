@@ -47,22 +47,27 @@ var gsmChars = map[string]int{
 
 var extensionCharsRe *regexp.Regexp
 
+// IsGsm returns whether sms can be sent using only gsm charset
 func (s *SmsInfo) IsGsm() bool {
 	return s.charset == charset_gsm
 }
 
+// Text returns text of the sms message
 func (s *SmsInfo) Text() string {
 	return s.text
 }
 
+// Len returns length ot the sms message
 func (s *SmsInfo) Len() int {
 	return s.len
 }
 
+// PartsCount returns number of parts sms will be split to
 func (s *SmsInfo) PartsCount() int {
 	return s.partsCount
 }
 
+// RunesPerPart returns number of symbols (runes) per part
 func (s *SmsInfo) RunesPerPart() int {
 	return s.runesPerPart
 }
@@ -92,6 +97,7 @@ func (s *SmsInfo) setProps() {
 	}
 }
 
+// NewSmsInfo creates new SmsInfo struct
 func NewSmsInfo(smsText string) *SmsInfo {
 	sms := SmsInfo{
 		smsText,
