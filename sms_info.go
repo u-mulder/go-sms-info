@@ -1,3 +1,10 @@
+// sms_info detects certain properties of sms according to sms text
+// Properties are:
+// - `text`, passed as string argument to NewSmsInfo() function
+// - `len`, length of the text, but as some chars occupy 2 positions, this value may differ from regular length of the text
+// - `partsCount`, number of parts sms will be split to
+// - `runesPerPart`, runes per part, differs for gsm and ucs charsets
+// - `charset`, `charset*`` constant indicating whether sms uses gsm charset or ucs charset
 package sms_info
 
 import (
@@ -57,7 +64,8 @@ func (s *SmsInfo) Text() string {
 	return s.text
 }
 
-// Len returns length ot the sms message
+// Len returns length ot the sms message, as some chars occupy
+// 2 positions, this value may differ from just number of chars
 func (s *SmsInfo) Len() int {
 	return s.len
 }
@@ -97,7 +105,7 @@ func (s *SmsInfo) setProps() {
 	}
 }
 
-// NewSmsInfo creates new SmsInfo struct
+// NewSmsInfo creates new SmsInfo struct from provided smsText
 func NewSmsInfo(smsText string) *SmsInfo {
 	sms := SmsInfo{
 		smsText,
