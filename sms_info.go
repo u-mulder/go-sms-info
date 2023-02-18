@@ -6,14 +6,14 @@ import (
 )
 
 const (
-	charset_gsm = iota
-	charset_ucs
+	charsetGsm = iota
+	charsetUcs
 
-	runes_per_part_gsm = 153
-	runes_max_gsm      = 160
+	runesPerPartGsm = 153
+	runesMaxGsm      = 160
 
-	runes_per_part_ucs = 67
-	runes_max_ucs      = 70
+	runesPerPartUcs = 67
+	runesMaxUcs      = 70
 )
 
 type SmsInfo struct {
@@ -49,7 +49,7 @@ var extensionCharsRe *regexp.Regexp
 
 // IsGsm returns whether sms can be sent using only gsm charset
 func (s *SmsInfo) IsGsm() bool {
-	return s.charset == charset_gsm
+	return s.charset == charsetGsm
 }
 
 // Text returns text of the sms message
@@ -81,13 +81,13 @@ func (s *SmsInfo) setProps() {
 	var maxLen int
 
 	if hasUcsChar(s.text) {
-		s.runesPerPart = runes_per_part_ucs
-		s.charset = charset_ucs
-		maxLen = runes_max_ucs
+		s.runesPerPart = runesPerPartUcs
+		s.charset = charsetUcs
+		maxLen = runesMaxUcs
 	} else {
-		s.runesPerPart = runes_per_part_gsm
-		s.charset = charset_gsm
-		maxLen = runes_max_gsm
+		s.runesPerPart = runesPerPartGsm
+		s.charset = charsetGsm
+		maxLen = runesMaxGsm
 	}
 
 	if maxLen < s.len {
@@ -104,7 +104,7 @@ func NewSmsInfo(smsText string) *SmsInfo {
 		0,
 		0,
 		0,
-		charset_gsm,
+		charsetGsm,
 	}
 	sms.setProps()
 
