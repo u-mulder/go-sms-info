@@ -4,7 +4,7 @@
 // - `len`, length of the text, but as some chars occupy 2 positions, this value may differ from regular length of the text
 // - `partsCount`, number of parts sms will be split to
 // - `runesPerPart`, runes per part, differs for gsm and ucs charsets
-// - `charset`, `charset*`` constant indicating whether sms uses gsm charset or ucs charset
+// - `charset`, `charset*` constant indicating whether sms uses gsm charset or ucs charset
 package sms_info
 
 import (
@@ -17,10 +17,10 @@ const (
 	charsetUcs
 
 	runesPerPartGsm = 153
-	runesMaxGsm      = 160
+	runesMaxGsm     = 160
 
 	runesPerPartUcs = 67
-	runesMaxUcs      = 70
+	runesMaxUcs     = 70
 )
 
 type SmsInfo struct {
