@@ -1,6 +1,6 @@
 # sms_info 
 
-`sms-info` helps you to get full info about sms message by providing text of this message.
+`sms-info` provides essential data about sms message by providing text of this message.
 
 ## Installation
 
