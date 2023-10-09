@@ -19,7 +19,7 @@ import (
 smsText := "Some sms text goes here"
 
 // Create new SmsInfo struct using smsText as input
-smsInfo := smsInfo.NewSmsInfo(tc.inputText)
+smsInfo := smsInfo.NewSmsInfo(smsText)
 			
 // Output struct
 fmt.Printf("SmsInfo %v", smsInfo)
